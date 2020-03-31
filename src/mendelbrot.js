@@ -23,6 +23,54 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 /**
+ * @description En esta funcion, almacenamos el numero introducido en el navegador
+ * que hace referencia a la cnatidad de puntos que queremos usar para calcular
+ * el área
+ * @param  {} 
+ * @returns En esta funcion no retornamos nada, ya que el resultado es almacenado directamente
+ */
+function numeroDePuntos() {
+  puntos = prompt("Introduzca numero de puntos a usar:");
+}
+
+/**
+ * @description Funcion utilizada para calcular el area que encierra a todos los puntos
+ * pertenecientes al Mandelbrot junto a su error. Para ello, tras introducir la cantidad de 
+ * puntos que desea usar el usuario, utilizando el boton indicado, se procede a generar esa 
+ * cantidad de puntos para comprobar si cumplen la funcion de umbral. En funcion de la cantidad
+ * de puntos que introduzca el usuario, se obtendra un tamalo de área u otro.
+ * Para calcualar dicho área, se utiliza la siguiente formula:
+ *  - Área = 2 * 2.5 * 1.125 * (numeroPuntosPertenecientesAlÁrea) / cnatidadTotalDePuntos
+ *  - Error = area / sqrt(cnatidadTotalDePuntos)
+ * @param  {} 
+ * @returns En esta funcion no retornamos nada, ya que el resultado es almacenado directamente
+ */
+function calcularArea() {
+  const MINIMOX = -2;
+  const MAXIMOX = 0.5;
+  const MINIMOY = 0;
+  const MAXIMOY = 1.125;
+
+  let puntoPertenecientesAlArea = 0;
+
+  for (let i = 0; i < puntos; i++) {
+    let coordenadaX = Math.random() * (MAXIMOX - MINIMOX) + MINIMOX;
+    let coordenadaY = Math.random() * (MAXIMOY - MINIMOY) + MINIMOY;
+    let complejo = new numeroComplejo(coordenadaX, coordenadaY);
+
+    if (calcularFdeZ(complejo) === 0) {
+      puntoPertenecientesAlArea++;
+    }
+  }
+
+  let area = 2 * 2.5 * 1.125 * puntoPertenecientesAlArea / puntos;
+  let error = area / Math.sqrt(puntos);
+  
+  alert("Area: " + area);
+  alert("Error: "  + error);
+}
+
+/**
  * @description Funcion que utilizamos para, dado un numero complejo, y un numero de iteraciones
  * maximo, calcular si ese complejo llegado un punto, comprobar si la distancia de ese punto es
  * mayor que 2, de tal manera que si la suma 
@@ -31,50 +79,58 @@ const ctx = canvas.getContext("2d");
  * @param  {Number} complejoParteImaginaria Parte imaginaria del numero complejo que queremos comprobar,
  * en este caso es la coordenada Y del punto con el que estamos trabajando
  */
-function calcularFdeZ(complejoParteReal, complejoParteImaginaria) {
+function calcularFdeZ(complejo) {
   const MAXIMOITERACIONES = 10000;
-  let auxiliarParteReal = complejoParteReal;
-  let auxiliarParteImaginaria = complejoParteImaginaria;
+  let complejoAuxiliar = complejo;
   let iteraciones = 0;
 
   while (iteraciones < MAXIMOITERACIONES) {
-    let parteReal = auxiliarParteReal * auxiliarParteReal -
-      auxiliarParteImaginaria * auxiliarParteImaginaria +
-      complejoParteReal;
-  
-    let parteImaginaria = 2 * auxiliarParteReal * auxiliarParteImaginaria
-      + complejoParteImaginaria;
-  
-    auxiliarParteReal = parteReal;
-    auxiliarParteImaginaria = parteImaginaria;
+    let parteReal = complejoAuxiliar.calcularParteReal() + complejo.getParteReal();
+    let parteImaginaria = complejoAuxiliar.calcularParteImaginaria() + complejo.getParteImaginaria();
 
-    if (auxiliarParteReal * auxiliarParteReal + auxiliarParteImaginaria * auxiliarParteImaginaria > 2)
+    complejoAuxiliar = new numeroComplejo(parteReal, parteImaginaria);
+
+    if (complejoAuxiliar.mayorQueDos())
       return (iteraciones);
     
     iteraciones++;
   }
-  
+
   return 0;
 }
 
+/**
+ * @description Funcion que utilizamos para, dado un canvas conn un tamaño especifico,
+ * calculamos para cada coordenada X e Y, del canvas, cuales de esos puntos, pertenecen
+ * a la region perteneciente al Mandelbrot, usando la funcion anterior donde calculamos si 
+ * dicho punto, efectivamente pertenece al intervalo.
+ * @params
+ * @returns En esta funcion, no retornamos nada, ya que simplemente se encarga de seleccionar
+ * el punto a tratar y pintar.
+ */
 function calcularMandelbrot() {
-  let limiteInferiorEjeX = -1.5;
+  let limiteInferiorEjeX = -2;
   let limiteSuperiorEjeX = 0.5;
   let limiteInferiorEjeY = -1;
-  let limiteSuperiorEjeY = 1.125;
+  let limiteSuperiorEjeY = 1;
 
   for (let ejeX = 0; ejeX < canvas.width; ejeX++) {
-    for (let ejeY = 0; ejeY < canvas.clientHeight; ejeY++) {
-      let numeroComplejo = calcularFdeZ((limiteInferiorEjeX + (ejeX / canvas.width) *
-        (limiteSuperiorEjeX - limiteInferiorEjeX)), (limiteInferiorEjeY +
-        (ejeY / canvas.height) * (limiteSuperiorEjeY - limiteInferiorEjeY)));
+    for (let ejeY = 0; ejeY < canvas.height; ejeY++) {
+      let coordenadaX = (limiteInferiorEjeX + (ejeX / canvas.width) *
+        (limiteSuperiorEjeX - limiteInferiorEjeX));
+      let coordenadaY = (limiteInferiorEjeY +
+        (ejeY / canvas.height) * (limiteSuperiorEjeY - limiteInferiorEjeY));
       
-      if(numeroComplejo !== 0) {
-        ctx.fillStyle = 'hsl(0, 100%, ' + numeroComplejo + '%)';
+      let complejo = new numeroComplejo(coordenadaX, coordenadaY);
+      let iteraciones = calcularFdeZ(complejo);
+      
+      if(iteraciones !== 0) {
+        ctx.fillStyle = 'hsl(0, 100%, ' + iteraciones + '%)';
         ctx.fillRect(ejeX, ejeY, 1,1);
       }
     }
   }
 }
 
+let puntos;
 calcularMandelbrot();

@@ -19,6 +19,7 @@ p {
 }
 
 canvas {
+  background: black;
   position: relative;
   top: 20px;
   margin: 0 auto;
@@ -40,5 +41,6 @@ canvas {
   font-size: 20px;
   cursor: pointer;
   position: relative;
-  left: 1000px;
+  top: -20px;
+  left: 1050px;
 }
