@@ -27,6 +27,14 @@ canvas {
   display: block;
 }
 
+canvas {
+  position: relative;
+  top: 20px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  display: block;
+}
+
 .btn-group {    
     text-align: center;
 }
