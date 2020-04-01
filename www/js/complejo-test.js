@@ -17,10 +17,10 @@
   * @version 1.0.0
 */
 
-const expect = require("chai").expect;
-let complejo = require("../src/complejo");
+// const chai.expect = require("chai").chai.expect;
+// let complejo = require("./complejo");
 
-let numeroComplejo = new complejo.numeroComplejo(5, 10);
+let numero = new numeroComplejo(5, 10);
 describe("Test unitarios para clase numero complejo:",
 function() {
   describe("Probando getter de la clase numeroComplejo", function() {
@@ -31,8 +31,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor retornado de getParteReal", function() {
-      let parteReal = numeroComplejo.getParteReal();
-      expect(parteReal).to.equal(5);
+      let parteReal = numero.getParteReal();
+      chai.expect(parteReal).to.equal(5);
     });
 
     /**
@@ -41,8 +41,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor retornado de getParteImaginaria", function() {
-      let parteImaginaria = numeroComplejo.getParteReal();
-      expect(parteImaginaria).to.equal(5);
+      let parteImaginaria = numero.getParteReal();
+      chai.expect(parteImaginaria).to.equal(5);
     });
   });
 
@@ -54,8 +54,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor introducido setParteReal", function() {
-      numeroComplejo.setParteReal(20);
-      expect(numeroComplejo.getParteReal()).to.equal(20);
+      numero.setParteReal(20);
+      chai.expect(numero.getParteReal()).to.equal(20);
     });
 
     /**
@@ -64,8 +64,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor introducido setParteImaginaria", function() {
-      numeroComplejo.setParteImaginaria(30);
-      expect(numeroComplejo.getParteImaginaria()).to.equal(30);
+      numero.setParteImaginaria(30);
+      chai.expect(numero.getParteImaginaria()).to.equal(30);
     });
   });
 
@@ -77,8 +77,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando cuadrado de parteReal del numero Complejo", function() {
-      let cuadrado = numeroComplejo.cuadradoParteReal();
-      expect(cuadrado).to.equal(400);
+      let cuadrado = numero.cuadradoParteReal();
+      chai.expect(cuadrado).to.equal(400);
     });
 
     /**
@@ -87,8 +87,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando cuadrado de parteImaginaria del numero Complejo", function() {
-      let cuadrado = numeroComplejo.cuadradoParteImaginaria();
-      expect(cuadrado).to.equal(900);
+      let cuadrado = numero.cuadradoParteImaginaria();
+      chai.expect(cuadrado).to.equal(900);
     });
   });
 
@@ -100,8 +100,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor calculado de parteReal de Mandelbrot", function() {
-      let resultado = numeroComplejo.calcularParteReal();
-      expect(resultado).to.equal(-500);
+      let resultado = numero.calcularParteReal();
+      chai.expect(resultado).to.equal(-500);
     });
 
     /**
@@ -110,8 +110,8 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor calculado de parteImaginaria de Mandelbrot", function() {
-      let resultado = numeroComplejo.calcularParteImaginaria();
-      expect(resultado).to.equal(1200);
+      let resultado = numero.calcularParteImaginaria();
+      chai.expect(resultado).to.equal(1200);
     });
   });
 
@@ -123,7 +123,7 @@ function() {
     * @returns Mostramos en caso de funcionar, la funcion, que la funcion es correcta
     */
     it ("Comprobando valor calculado de parteReal de Mandelbrot", function() {
-      expect(numeroComplejo.mayorQueDos()).to.equal(true);
+      chai.expect(numero.mayorQueDos()).to.equal(true);
     });
   });
 });
