@@ -92,6 +92,10 @@ function calcularFdeZ(complejo) {
 
     if (complejoAuxiliar.mayorQueDos())
       return (iteraciones);
+    else {
+      ctx.fillStyle = 'green';
+      ctx.fillRect(parteReal, parteImaginaria, 1,1);
+    }
     
     iteraciones++;
   }
