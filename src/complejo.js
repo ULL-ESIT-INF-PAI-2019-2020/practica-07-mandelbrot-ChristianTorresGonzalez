@@ -126,3 +126,5 @@ class numeroComplejo {
     return ((this.parteReal * this.parteImaginaria) > 2 ) ? true : false;
   }
 }
+
+module.exports = {numeroComplejo: numeroComplejo};
