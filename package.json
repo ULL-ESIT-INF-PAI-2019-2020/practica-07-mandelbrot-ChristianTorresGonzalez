@@ -7,14 +7,16 @@
     "test": "tests"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "istanbul": "^0.4.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "codecov": "^3.6.5",
     "mocha": "^7.1.1"
   },
   "scripts": {
-    "test": "mocha tests/complejo-test.js",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha && codecov -F istanbul_mocha",
     "start": "node web-server/app.js"
   },
   "repository": {
